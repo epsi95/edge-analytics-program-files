@@ -13,8 +13,8 @@ import socket
 # configuring UDP port for receiving gps in
 UDP_IP = "127.0.0.1"
 UDP_PORT = 5005
-sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-sock.bind((UDP_IP, UDP_PORT))
+# sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+# sock.bind((UDP_IP, UDP_PORT))
 
 def getTimestamp(): 
     timestamp = int(datetime.timestamp(datetime.now())) + (5*60*60) + (30*60) # indian timezone
@@ -129,6 +129,8 @@ while(True):
 #     lat += 0.001
 #     lon += 0.001
     try:
+        sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+        sock.bind((UDP_IP, UDP_PORT))
         data, addr = sock.recvfrom(1024)
         data = data.decode("utf-8")
         lat = lat if float(data.split(",")[0]) == -1 or float(data.split(",")[0]) == 0 else float(data.split(",")[0])
